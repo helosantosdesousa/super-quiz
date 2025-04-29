@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage
 import random
 import requests
-from model.question import Question
+from .question import Question
 
 
 class Quiz:
@@ -15,7 +15,7 @@ class Quiz:
 
         self.bg_color = '#ECECEC'
         self.text_color = '#333333'
-        self.bt_color = '#4CAF50'
+        self.bt_color = '#2a9df4'
         self.bt_text_color = '#FFFFFF'
 
         self.window.config(bg=self.bg_color)
@@ -29,14 +29,14 @@ class Quiz:
         except:
             pass  
 
-        # question label
+        
         self.questions_label = tk.Label(
             window, text='', wraplength=380, bg=self.bg_color,
             fg=self.text_color, font=('Arial', 12, 'bold')
         )
         self.questions_label.pack(pady=20)
 
-        # buttons
+        
         self.op1_btn = tk.Button(window, width=30, bg=self.bt_color, fg=self.bt_text_color,
                                  font=('Arial', 10, 'bold'), command=lambda: self.check_answer(1))
         self.op2_btn = tk.Button(window, width=30, bg=self.bt_color, fg=self.bt_text_color,
@@ -51,13 +51,13 @@ class Quiz:
         self.op3_btn.pack(pady=10)
         self.op4_btn.pack(pady=10)
 
-        # button play again
+        
         self.play_again_btn = tk.Button(
             window, command=self.play_again, text='Play again', width=30,
             bg=self.bt_color, fg=self.bt_text_color, font=('Arial', 10, 'bold')
         )
 
-       
+        
         self.fetch_questions()
         self.display_question()
 
@@ -101,7 +101,7 @@ class Quiz:
             self.show_result()
 
     def show_result(self):
-        messagebox.showinfo('Quiz completed', f'Congratulations You finished the Super Quiz!\nScore: {self.score}/{len(self.questions)}')
+        messagebox.showinfo("Quiz completed", f"Score: {self.score}/{len(self.questions)}")
         self.disable_buttons()
         self.play_again_btn.pack()
 
