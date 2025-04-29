@@ -92,7 +92,7 @@ def check_answer(selected_op):
     else:
         show_result()    
 
-print(questions)
+
 fetch_questions()
 
 window=tk.Tk()
