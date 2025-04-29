@@ -1,18 +1,37 @@
 import tkinter as tk 
 from tkinter import messagebox
 from tkinter import PhotoImage
-import pandas as pd
 import random
+import requests
 
-
-#read excel questions
-df = pd.read_excel('questions.xlsx')
-# get questions ramdomly
-questions = df.sample(n=10).values.tolist()
 
 # global var
 score = 0
 current_question = 0
+
+
+def fetch_questions():
+    global questions
+    url = "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple"  # API request URL
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        questions = []
+        for item in data['results']:
+            question = item['question']
+            correct_answer = item['correct_answer']
+            incorrect_answers = item['incorrect_answers']
+            
+            # Shuffle answers to randomize the order
+            all_answers = incorrect_answers + [correct_answer]
+            random.shuffle(all_answers)
+            
+            questions.append([question] + all_answers + [all_answers.index(correct_answer) + 1])
+    else:
+        messagebox.showerror("Error", "Failed to fetch questions.")
+        window.quit()
+
 
 """
     Displays the current question and enables the answer buttons.
@@ -24,12 +43,13 @@ current_question = 0
 
 
 def display_question():
-    question, op1, op2,op3,op4, answer = questions[current_question]
+    global current_question, questions
+    question, op1, op2, op3, op4, answer = questions[current_question]
     questions_label.config(text=question)
-    op1_btn.config(text=op1, state=tk.NORMAL, command=lambda:check_answer(1))
-    op2_btn.config(text=op2, state=tk.NORMAL,command=lambda:check_answer(2))
-    op3_btn.config(text=op3, state=tk.NORMAL,command=lambda:check_answer(3))
-    op4_btn.config(text=op4, state=tk.NORMAL,command=lambda:check_answer(4))
+    op1_btn.config(text=op1, state=tk.NORMAL, command=lambda: check_answer(1))
+    op2_btn.config(text=op2, state=tk.NORMAL, command=lambda: check_answer(2))
+    op3_btn.config(text=op3, state=tk.NORMAL, command=lambda: check_answer(3))
+    op4_btn.config(text=op4, state=tk.NORMAL, command=lambda: check_answer(4))
     
     right_answer.set(answer)  
     
@@ -63,16 +83,17 @@ def check_answer(selected_op):
     global score, current_question
     
     if selected_op == right_answer.get():
-        score+=1
+        score += 1
         
-    current_question+=1
+    current_question += 1
     
-    if current_question<len(questions):
+    if current_question < len(questions):
         display_question()
     else:
         show_result()    
 
 print(questions)
+fetch_questions()
 
 window=tk.Tk()
 window.title('Quiz')
