@@ -3,6 +3,8 @@ from tkinter import messagebox, PhotoImage
 import random
 import requests
 from .question import Question
+import html
+
 
 
 class Quiz:
@@ -17,8 +19,8 @@ class Quiz:
         self.text_color = '#333333'
         self.bt_color = '#2a9df4'
         self.bt_text_color = '#FFFFFF'
-        self.bt_play_again_color = '#1167b1'
-        self.text2_color = '#03254c'
+        self.bt_play_again_color = '#1260cc'
+        self.text2_color = '#1260cc'
 
         self.window.config(bg=self.bg_color)
         self.window.option_add('*Font', 'Arial')
@@ -56,7 +58,7 @@ class Quiz:
         
         self.play_again_btn = tk.Button(
             window, command=self.play_again, text='Play again', width=30,
-            bg=self.bt_play_again_color, fg=self.text2_color, font=('Arial', 10, 'bold')
+            bg=self.bt_text_color, fg=self.text2_color, font=('Arial', 10, 'bold')
         )
 
         
@@ -70,15 +72,17 @@ class Quiz:
         if response.status_code == 200:
             data = response.json()
             for item in data['results']:
-                question_text = item['question']
-                correct_answer = item['correct_answer']
-                options = item['incorrect_answers'] + [correct_answer]
+                question_text = html.unescape(item['question'])
+                correct_answer = html.unescape(item['correct_answer'])
+                incorrect_answers = [html.unescape(ans) for ans in item['incorrect_answers']]
+                options = incorrect_answers + [correct_answer]
                 random.shuffle(options)
                 question = Question(question_text, options, correct_answer)
                 self.questions.append(question)
         else:
             messagebox.showerror("Error", "Failed to fetch questions.")
             self.window.quit()
+
 
     def display_question(self):
         question = self.questions[self.current_question]
