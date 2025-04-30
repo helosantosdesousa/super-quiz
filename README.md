@@ -1,7 +1,7 @@
 # 🧠 Super Quiz
 Super Quiz is a fun and interactive quiz game built with Python and Tkinter. It fetches real-time trivia questions from the Open Trivia DB API, providing a fresh and challenging experience every time you play.
 
-![Super Quiz Demo](demo.gif)
+![Super Quiz Demo](super-quiz.gif)
 
 
 ## 🚀 Features
