@@ -41,14 +41,15 @@ class Quiz:
         self.questions_label.pack(pady=20)
 
         
-        self.op1_btn = tk.Button(window, width=30, bg=self.bt_color, fg=self.bt_text_color,
+        self.op1_btn = tk.Button(window, width=50, wraplength=380, bg=self.bt_color, fg=self.bt_text_color,
                                  font=('Arial', 10, 'bold'), command=lambda: self.check_answer(1))
-        self.op2_btn = tk.Button(window, width=30, bg=self.bt_color, fg=self.bt_text_color,
+        self.op2_btn = tk.Button(window, width=50, wraplength=380, bg=self.bt_color, fg=self.bt_text_color,
                                  font=('Arial', 10, 'bold'), command=lambda: self.check_answer(2))
-        self.op3_btn = tk.Button(window, width=30, bg=self.bt_color, fg=self.bt_text_color,
+        self.op3_btn = tk.Button(window, width=50, wraplength=380, bg=self.bt_color, fg=self.bt_text_color,
                                  font=('Arial', 10, 'bold'), command=lambda: self.check_answer(3))
-        self.op4_btn = tk.Button(window, width=30, bg=self.bt_color, fg=self.bt_text_color,
+        self.op4_btn = tk.Button(window, width=50, wraplength=380, bg=self.bt_color, fg=self.bt_text_color,
                                  font=('Arial', 10, 'bold'), command=lambda: self.check_answer(4))
+
 
         self.op1_btn.pack(pady=10)
         self.op2_btn.pack(pady=10)
